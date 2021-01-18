@@ -78,7 +78,4 @@ finalData <- meanStdData %>%
         group_by(subject, activity) %>% 
         summarise_all(list(mean))
 
-
-
-
-
+write.table(finalData, "Final Data.txt")
