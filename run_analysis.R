@@ -50,3 +50,35 @@ testData <- cbind(subjectTest, yTest, xTest)
 # Merged Data
 mergeData <- rbind(trainData, testData)
 
+
+
+# Extracts the mean and standard deviation for each measurement -----------
+
+
+meanStdData <- mergeData %>% 
+        select(subject, activity, contains("mean"), contains("std"))
+
+
+
+# Tidy up names of columns ------------------------------------------------
+
+
+names(meanStdData) <- gsub("\\.", "", names(meanStdData))
+names(meanStdData) <- gsub("^t", "time", names(meanStdData))
+names(meanStdData) <- gsub("^f", "frequency", names(meanStdData))
+names(meanStdData) <- gsub("Acc", "Acceleration", names(meanStdData))
+names(meanStdData) <- gsub("Gyro", "Gyroscope", names(meanStdData))
+
+
+
+# Calculate the mean of each subject and activity -------------------------
+
+
+finalData <- meanStdData %>% 
+        group_by(subject, activity) %>% 
+        summarise_all(list(mean))
+
+
+
+
+
